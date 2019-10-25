@@ -1,10 +1,7 @@
 <?php
 class About extends Controller{
-	
-	public function isEnabled()
-	{
-		return true;
-	}
+	public static function isEnabled() { return true; }
+	public function getPageBuilder() { return 'LoginPage'; }
 
 	public function GetPageContent()
 	{

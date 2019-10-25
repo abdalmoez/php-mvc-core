@@ -6,10 +6,10 @@ require_once 'Core/PageBuilder.php';
 require_once 'Core/wp-db.php';
 require_once 'Core/ScriptManager.php';
 require_once 'Core/StyleManager.php';
+require_once 'Core/JSLogger.php';
 
 $wpdb = new wpdb('root','','wpplugindev','localhost');
 
 ErrorHandler::Configure();
 
-new Bootstrap();
-PageBuilder::Generate();
+(new Bootstrap())->Generate();

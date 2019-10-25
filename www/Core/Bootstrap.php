@@ -47,4 +47,9 @@ class Bootstrap{
             Bootstrap::$mainController->main(array());
         }
     }
+
+    public function Generate()
+    {
+        PageBuilder::GetPageContent(Bootstrap::$mainController->getPageBuilder());
+    }
 }

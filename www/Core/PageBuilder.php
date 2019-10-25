@@ -1,39 +1,33 @@
 <?php
 
-class PageBuilder{
+abstract class PageBuilder{
+    
+    public static function GetPageContent($PageBuilderTheme){           
+
+        if(isset($GLOBALS['THEME'])==false || $GLOBALS['THEME']==''){
+            $GLOBALS['THEME'] = 'default';            
+        }
+        if($PageBuilderTheme=='')
+            $PageBuilderTheme='DefaultPage';
+        $file = "Theme/".$GLOBALS['THEME']."/$PageBuilderTheme.php";
+        if(file_exists($file) == false)
+            ErrorHandler::Throw("The  theme file '".$PageBuilderTheme."' is not found.");//404 Error 
+
+        require_once($file);
+
+        if(is_subclass_of($PageBuilderTheme,'PageBuilder')==false)
+            ErrorHandler::Throw("The  class '".$PageBuilderTheme."' in '$file' doesn't extend the class 'PageBuilder'.");//404 Error 
+
+        if((new ReflectionClass($PageBuilderTheme))->isAbstract() == true)
+            ErrorHandler::Throw("The  class '".$PageBuilderTheme."' in '$file' is abstract and can't be used as an entry controller.");//404 Error 
+        
+        return $PageBuilderTheme::Generate();    
+    }
+
     public static $Title='Homepage';
     public static $Lang='en';
     public static $Encoding='UTF-8';
     public static $Meta='';
     
-    public static function Generate()
-    {
-        $newline='';
-        if(isset($GLOBALS['EnableCompression']) && $GLOBALS['EnableCompression'])
-        echo "<!DOCTYPE html>".$newline;        
-        echo "<html lang='".PageBuilder::$Lang."'>".$newline;
-        echo " <head>".$newline;
-        echo "  <meta charset='".PageBuilder::$Encoding."'>".$newline;
-        echo "  <title>".PageBuilder::$Title."</title>".$newline;
-        echo PageBuilder::$Meta.$newline;
-        echo StyleManager::GetHeadContent();
-		echo JSLogger::ExportToJavaScript();
-        echo ScriptManager::GetHeadContent();
-        echo "<link href='public/css/bootstrap.4.3.1.min' rel='stylesheet'>";
-        echo "<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>";
-
-        echo " </head>".$newline;
-        echo " <body>".$newline;
-        require('Views/header.php');
-        Bootstrap::$mainController->GetPageContent();        
-        require('Views/footer.php');
-        echo StyleManager::GetFootContent();
-        echo '<script src="public/js/jquery-3.3.1.slim.min.js"></script>';
-        echo '<script src="public/js/popper-1.14.7.min.js"></script>';
-        echo '<script src="public/js/bootstrap.4.3.1.min.js"></script>';
-        echo ScriptManager::GetFootContent();
-        echo " </body>".$newline;
-        echo "</html>".$newline;
-        
-    }
+    public static abstract function Generate();
 }

@@ -1,11 +1,10 @@
 <?php
-require 'Core/JSLogger.php';
 class Home extends Controller{
 	
-	public static function isEnabled()
-	{
-		return true;
-	}
+
+	public static function isEnabled() { return true; }
+	public function getPageBuilder() { return 'DefaultPage'; }
+
 	public function GetPageContent()
 	{
 		require 'Views/home.php';
