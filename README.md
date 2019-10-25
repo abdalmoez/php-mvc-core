@@ -1,4 +1,4 @@
-#Php mvc core
+# Php mvc core
 ===========================
 **PHP MVC Core gives you a powerful, patterns-based way to build static and dynamic websites that enables a clean separation of concerns and gives you full control over markup for enjoyable, agile development. 
 
